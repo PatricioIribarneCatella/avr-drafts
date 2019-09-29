@@ -1,4 +1,4 @@
-#include "average.h"
+#include "defs.h"
 
 .global average
 ; calculates the average
