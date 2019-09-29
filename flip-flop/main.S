@@ -1,8 +1,5 @@
 #include "avrx.h"
-
-DSEG
-V: BYTE SIZE
-M: BYTE 1
+#include "ff.h"
 
 CSEG
 ORG _VECTORS_SIZE
@@ -10,40 +7,44 @@ ORG _VECTORS_SIZE
 
 .global main
 main:
-	; Write
-	;sbi _SFR_IO_ADDR(DDRB), 3
-	;cbi _SFR_IO_ADDR(DDRB), 0
-	;cbi _SFR_IO_ADDR(DDRB), 1
-	; Read
-	;cbi _SFR_IO_ADDR(DDRB), 2
-	
-	; put 0x8 directly into DDRB
-	ldi r1, 0x8
-	out _SFR_IO_ADDR(DDRB), r1
+	clr r17
 
-	; read PORTB
-	in r16, _SFR_IO_ADDR(PORTB)
-	
-loop_one:
-	mov r17, r16&0x1
-	breq loop_one
+	; set the first value for Q
+	ldi QVALUE, 0x1
 
+	; obtain what it is already
+	; in DDRB register for
+	; previous configuration
+	in r16, _SFR_IO_ADDR(DDRB)
 
+	; put 1 in Q position
+	ldi r17, (1<<Q)
+	or r16, r17
 
-	ldi XH, HIGH(V)
-	ldi XL, LOW(V)
+	; put 0 in J|K|CLK positions
+	clr r17
+	ldi r17, (1<<CLK)|(1<<K)|(1<<J)
+	com r17
+	and r16, r17
 
-	call load
+	; store the new configuration
+	; in  DDRB
+	out _SFR_IO_ADDR(DDRB), r16
 
-	ldi XH, HIGH(V)
-	ldi XL, LOW(V)
+high:
+	; tests for high input in
+	; PINB[0] register
+	sbic _SFR_IO_ADDR(PINB), CLK
+	rjmp high
 
-	call average
-
-	ldi YH, HIGH(M)
-	ldi YL, LOW(M)
-
-	st Y, ACUM2
-
-here: rjmp here
+low:
+	; tests for low input in
+	; PINB[0] register
+	; and when it changes
+	; low -> high, it calls
+	; the Flip-Flop algorithm
+	sbis _SFR_IO_ADDR(PINB), CLK
+	rjmp low
+	call ffjk
+	rjmp high
 
