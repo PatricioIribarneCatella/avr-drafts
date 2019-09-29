@@ -7,13 +7,26 @@
 average:
 	ldi ACUM1, 0
 	ldi ACUM2, 0
-	ldi I, SIZE
+	ldi I, 8
 	clr r0
 
 loop:
 	ld r10, X+
+	
+	; test if the value
+	; is negative or positive
+	add r10, r0
+	brmi negative
+
+	clr SIGN
+	rjmp sum
+
+negative:
+	ldi SIGN, 0xFF
+
+sum:	
 	add ACUM2, r10
-	adc ACUM1, r0
+	adc ACUM1, SIGN
 	dec I
 	breq exit
 	rjmp loop
