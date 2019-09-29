@@ -13,6 +13,13 @@ DATA: DB 'H','e','l','l','o',' ','W','o','r','l','d','\0'
 
 .global main
 main:
+	; initialize the stack
+	; pointer to RAMEND
+	ldi r16, HIGH(RAMEND)
+	out _SFR_IO_ADDR(SPH), r16
+	ldi r16, LOW(RAMEND)
+	out _SFR_IO_ADDR(SPL), r16
+
 	ldi XH, HIGH(V)
 	ldi XL, LOW(V)
 
