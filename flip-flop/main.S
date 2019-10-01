@@ -26,13 +26,10 @@ main:
 
 	; put 1 in Q position
 	ldi r17, (1<<Q)
-	or r16, r17
+	ori r16, (1<<Q)
 
 	; put 0 in J|K|CLK positions
-	clr r17
-	ldi r17, (1<<CLK)|(1<<K)|(1<<J)
-	com r17
-	and r16, r17
+	andi r16, ~(((1<<CLK)|(1<<K)|(1<<J)))
 
 	; store the new configuration
 	; in  DDRB

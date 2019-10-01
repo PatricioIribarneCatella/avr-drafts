@@ -15,7 +15,7 @@ loop:
 	
 	; test if the value
 	; is negative or positive
-	add r10, r0
+	tst r10
 	brmi negative
 
 	clr SIGN
@@ -28,8 +28,7 @@ sum:
 	add ACUM2, r10
 	adc ACUM1, SIGN
 	dec I
-	breq exit
-	rjmp loop
+	brne loop
 
 exit:
 	asr ACUM1
