@@ -6,9 +6,9 @@ V: BYTE SIZE
 M: BYTE 1
 
 CSEG
-ORG _VECTORS_SIZE
 	rjmp main
 
+ORG _VECTORS_SIZE
 .global main
 main:
 	; initialize the stack
@@ -28,7 +28,7 @@ main:
 
 	call average
 
-	ldi YH, HIGH(M)
+fini:	ldi YH, HIGH(M)
 	ldi YL, LOW(M)
 
 	st Y, ACUM2

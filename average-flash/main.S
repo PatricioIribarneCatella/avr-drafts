@@ -6,11 +6,11 @@ V: BYTE SIZE
 M: BYTE 1
 
 CSEG
-ORG _VECTORS_SIZE
 	rjmp main
 
 DATA: DB 'H','e','l','l','o',' ','W','o','r','l','d','\0'
 
+ORG _VECTORS_SIZE
 .global main
 main:
 	; initialize the stack

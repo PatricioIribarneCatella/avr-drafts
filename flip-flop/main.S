@@ -2,9 +2,9 @@
 #include "ff.h"
 
 CSEG
-ORG _VECTORS_SIZE
 	rjmp main
 
+ORG _VECTORS_SIZE
 .global main
 main:
 	; initialize the stack
