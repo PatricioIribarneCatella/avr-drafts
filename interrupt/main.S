@@ -1,9 +1,8 @@
 #include "avrx.h"
 #include "defs.h"
 
-#define C2 2
-
 CSEG
+ORG 0x0
 rjmp main
 
 ORG _VECTORS_SIZE
@@ -20,7 +19,7 @@ main:
 	; clean previous config in (ISC01 | ISC00)
 	; then put ISC01=1 | ISC00=0
 	; for falling edge detection
-	; use pointer for addressing EICRA
+	; use LDS for addressing EICRA
 	; because its in the Extended I/O
 	; registers
 	lds r16, EICRA
@@ -50,8 +49,11 @@ here: rjmp here
 INT0_vect:
 
 	; save used registers
-	; and SREG via in and
-	; then push
+	; and SREG
+	push INPUT
+	push r20
+	in r20, _SFR_IO_ADDR(SREG)
+	push r20
 
 	in INPUT, _SFR_IO_ADDR(PORTC)
 	
@@ -59,6 +61,13 @@ INT0_vect:
 	eor INPUT, (1<<C2)
 
 	out _SFR_IO_ADDR(PORTC), INPUT
+
+	; restore saved registers
+	; and SREG values
+	pop r20
+	out _SFR_IO_ADDR(SREG), r20
+	pop r20
+	pop INPUT
 
 	reti
 

@@ -1,12 +1,8 @@
 #ifndef DEFS_H
 #define DEFS_H
 
-#define SIZE 8
-
-#define ACUM1 r16
-#define ACUM2 r17
-#define I r18
-#define SIGN r19
+#define C2 2
+#define INPUT r16
 
 #endif // DEFS_H
 
