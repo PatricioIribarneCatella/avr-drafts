@@ -4,13 +4,13 @@ Some drafts of AVR examples (Laboratorio de Microcomputadoras (61.09) - _FIUBA_)
 
 ### Contents
 
-- average (with RAM and ROM memory usage)
-- bubble-sort
-- date-sum (add _days_ to a calendar date)
-- division (signed and unsigned integers)
-- flip-flop (simulation of a JK bi-stable)
-- interrupt (external interrupt handling)
-- serial (serial communication using the USART protocol)
+- ***average*** (with RAM and ROM memory usage)
+- ***bubble-sort***
+- ***date-sum*** (add _days_ to a calendar date)
+- ***division*** (signed and unsigned integers)
+- ***flip-flop*** (simulation of a JK bistable)
+- ***interrupt*** (external interrupt handling)
+- ***serial*** (serial communication using the USART protocol)
 
 ### Compile
 
